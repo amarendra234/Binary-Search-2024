@@ -1,0 +1,38 @@
+class Solution {
+public:
+    typedef long long ll;
+    bool isValid(vector<int>&nums,ll mid,int m,int k){
+        int no_of_adj=0;
+        int count=0;
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]<=mid){
+                no_of_adj++;
+            }else{
+                no_of_adj=0;
+            }
+            if(no_of_adj==k){
+                no_of_adj=0;
+                count++;
+            }
+        }
+        return count>=m;
+    }
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        ll l=1;
+        ll r=INT_MIN;
+        for(int i=0;i<bloomDay.size();i++){
+            r=max(r,(ll)bloomDay[i]);
+        }
+        ll ans=-1;
+        while(l<=r){
+            ll mid=l+(r-l)/2;
+            if(isValid(bloomDay,mid,m,k)){
+                ans=mid;
+                r=mid-1;
+            }else{
+                l=mid+1;
+            }
+        }
+        return (int)ans;
+    }
+};
